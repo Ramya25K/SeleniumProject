@@ -5,7 +5,7 @@
     <classes>
       <class name="AmazonTestCases.TestCases">
         <methods>
-          <include name="TC04"/>
+          <include name="TC05"/>
           <include name="initialization"/>
         </methods>
       </class> <!-- AmazonTestCases.TestCases -->

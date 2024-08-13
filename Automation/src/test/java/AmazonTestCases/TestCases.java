@@ -22,7 +22,8 @@ public class TestCases extends BaseClass{
 	public void initialization()
 	{
 		driver = browserintialization("Chrome");// open browser
-		driver.get("https://www.amazon.in"); //getting link - for amazon
+		//driver.get("https://www.amazon.in"); //getting link - for amazon
+		driver.get("https://www.ironspider.ca/forms/checkradio.htm");
 		//driver.get("https://form.immigration.ca/skilled-worker/");
 	//	driver.get("https://www.immigration.ca/");
 		driver.manage().window().maximize(); // to maximize the page
@@ -156,6 +157,20 @@ public class TestCases extends BaseClass{
 			
 			driver.navigate().to("https://form.immigration.ca/skilled-worker/");
 			driver.findElement(By.xpath("(//label[text()='Yes'])[1]")).click();			
+		}
+		
+		@Test
+		public void TC05() throws InterruptedException
+		{
+			//driver.navigate().to("https://www.ironspider.ca/forms/checkradio.htm");
+			driver.findElement(By.xpath("//input[@type=\"checkbox\" and @value='red']")).click();
+			driver.findElement(By.xpath("//input[@type=\"checkbox\" and @value='purple']")).click();
+			Thread.sleep(2000);
+			driver.findElement(By.xpath("//input[@type=\"checkbox\" and @value='red']")).click();
+			driver.findElement(By.xpath("(//input[@type='radio'])[1]")).click();	
+			
+			driver.navigate().to("https://designsystem.digital.gov/components/radio-buttons/");
+			driver.findElement(By.xpath("(//label[text()='Sojourner Truth'])[1]")).click();
 		}
 		
 		

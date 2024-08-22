@@ -1,11 +1,18 @@
 package AmazonTestCases;
 import org.testng.annotations.Test;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,8 +21,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 //import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 
 import AutomationCore.BaseClass;
 
@@ -30,7 +42,9 @@ public class TestCases extends BaseClass{
 		//driver.get("https://www.ironspider.ca/forms/checkradio.htm");
 		//driver.get("https://form.immigration.ca/skilled-worker/");
 	//driver.get("https://www.immigration.ca/");
+		//driver.get("https://demoqa.com/alerts");
 		driver.manage().window().maximize(); // to maximize the page
+		System.out.println("This is BeforeMethod Example");
 		
 	}
 	
@@ -127,7 +141,11 @@ public class TestCases extends BaseClass{
 		{
 			driver.get("https://www.redbus.in/");
 			driver.findElement(By.id("src")).sendKeys("Kochi");
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
+			//Expliict wait instead of thread.sleep
+			WebDriverWait waits = new WebDriverWait(driver, Duration.ofSeconds(2));
+			waits.until(ExpectedConditions.elementToBeClickable(By.xpath("(//i[@class='icon icon-ic-city solr-icon'])[1]")));
+			
 			driver.findElement(By.xpath("(//i[@class='icon icon-ic-city solr-icon'])[1]")).click();
 			
 			driver.navigate().to("https://the-internet.herokuapp.com/drag_and_drop");
@@ -305,5 +323,118 @@ public class TestCases extends BaseClass{
 		
 		}
 		
+		@Test
+		public void TC08()
+		{
+			driver.get("https://demoqa.com/alerts");
+			
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			By buttonLocator = By.xpath("(//button[@class='btn btn-primary'])[4]");
+
+            // Wait until the button is clickable
+            WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+			 button.click();
+			 
+			 
+		}
+		
+		@Test
+		public void TC09() throws Exception
+		{	
+			
+			driver.get("https://ps.uci.edu/~franklin/doc/file_upload.html");
+			Thread.sleep(4000);
+			WebElement choosefile = driver.findElement(By.name("userfile"));
+			WebElement submit = driver.findElement(By.xpath("//input[@type='submit']"));
+			submit.click();
+			
+			JavascriptExecutor executor = (JavascriptExecutor)driver;//using javascript to automate
+			executor.executeScript("arguments[0]", choosefile);
+			
+			setClickBoardData("C:\\Users\\User\\Desktop\\Testing\\Java Files\\Automation_Tester_Skills.txt");
+			
+		
+			
+			
+			driver.findElement(By.id("fileInput")).click();
+			Thread.sleep(2000);
+			
+			Robot robot = new Robot(); //for pasting ctrl+v
+			robot.delay(300);
+			robot.keyPress(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_V);
+			robot.keyRelease(KeyEvent.VK_CONTROL);
+			robot.keyPress(KeyEvent.VK_ENTER);
+			robot.delay(300);
+			robot.keyRelease(KeyEvent.VK_ENTER);
+			//submit.click();
+			
+		}
+		
+		
+		public static void  setClickBoardData(String path)
+		{
+			StringSelection stringname = new StringSelection(path);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringname, null); //enteriing value in clickboard
+			
+		}
+		
+		@Test
+		public void TC10()
+		{
+			driver.get("https://www.amazon.in");
+//			JavascriptExecutor executor = (JavascriptExecutor)driver; //FOR SCROLLING
+//			executor.executeScript("window.scrollBy(0.250)");
+			System.out.println("Test Case 10");
+		}
+		
+		
+		@Test
+		public void TC11()
+		{
+			System.out.println("Test 11");
+		}
+		@BeforeSuite
+		public void beforeSuiteExample()
+		{
+			System.out.println("This is beforeSuiteMethod");
+		}
+		
+		
+		@AfterSuite
+		public void afterSuiteExample() 
+		{
+			System.out.println("This is afterSuiteMethod");
+		}
+		
+		
+		@BeforeTest
+		public void beforeTest()
+		{
+			System.out.println("This is the beforeTest");
+		}
+		
+		@AfterTest
+		public void afterTest()
+		{
+			System.out.println("This is aftertest");
+		}
+		
+		@AfterMethod
+		public void afterMethodExample()
+		{
+			System.out.println("This is after method");
+		}
+		
+		
+		public void TC12()
+		{
+			driver.findElement(By.id("twotabsearchtextbox")).click();
+			driver.findElement(By.name("field-keywords"));
+			driver.findElement(By.linkText("Amazon miniTV"));
+			driver.findElement(By.cssSelector("//input[id ='value']"));
+			driver.manage().timeouts().implicitlyWait(2,TimeUnit.SECONDS);
+		}
 	}
 	
